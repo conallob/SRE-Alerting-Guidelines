@@ -5,25 +5,33 @@ transparent home for the guide's content and its living issue tracker; the
 finished guide is published as a project page under
 [writings.conall.dev/projects/](https://writings.conall.dev/projects/).
 
+## Content
+
+[`sre-alerting-guidelines.md`](./sre-alerting-guidelines.md) at the repo root
+is the guide itself — the one file to edit. Everything else in the repo is
+tooling that exists to preview it.
+
 ## Preview site
 
-This repo builds as a standalone [Hugo](https://gohugo.io/) site (theme:
-[PaperMod](https://github.com/adityatelange/hugo-PaperMod), pinned as a git
-submodule at `themes/PaperMod`), so edits can be previewed — Markdown
-rendering, headings, TOC, links — before they're copied over to
-writings.conall.dev's `content/projects/`.
+All the Hugo scaffolding (config, theme, layout) lives under
+[`preview/`](./preview), so it doesn't bury the content. `preview/hugo.toml`
+mounts the top-level `sre-alerting-guidelines.md` straight into Hugo's
+content tree (a `[[module.mounts]]` entry, not a copy or symlink — Hugo
+won't follow a symlink that escapes the site root), so there's a single
+canonical copy of the text.
 
 ```bash
-git submodule update --init --recursive
-hugo server --buildDrafts
+git submodule update --init --recursive preview/themes/PaperMod
+cd preview && hugo server --buildDrafts
 ```
 
 ### Cloudflare preview deployments
 
-`wrangler.jsonc` and `scripts/ci-build.sh` mirror the pattern used by
-writings.conall.dev: connect this repo to a **Cloudflare Workers Builds**
-project (dashboard → Workers & Pages → Create → Import a repository), and it
-will build every branch automatically:
+`wrangler.jsonc` (repo root) and `preview/scripts/ci-build.sh` mirror the
+pattern used by writings.conall.dev: connect this repo to a **Cloudflare
+Workers Builds** project (dashboard → Workers & Pages → Create → Import a
+repository), build command `bash preview/scripts/ci-build.sh`, output
+directory `preview/public`. It then builds every branch automatically:
 
 - `main` deploys to the project's production URL.
 - Any other branch deploys to a preview URL of the form
@@ -36,8 +44,23 @@ straight off whatever branch you push here.
 
 ### Publishing
 
-Once a section of the guide is ready, copy the corresponding page(s) from
-`content/projects/sre-alerting-guidelines/` here into
+Once a section of the guide is ready, copy `sre-alerting-guidelines.md`
+(minus its Hugo front matter, or adapted to fit) into
 `content/projects/sre-alerting-guidelines/` on writings.conall.dev and open a
 PR there. This repo's copy stays the editable source of truth and preview
 surface; writings.conall.dev only receives finished pages.
+
+## Repository structure
+
+```
+.
+├── sre-alerting-guidelines.md   # the guide (edit this)
+├── wrangler.jsonc                # Cloudflare Workers Builds deploy config
+└── preview/                      # Hugo preview site (config/theme/tooling only)
+    ├── hugo.toml
+    ├── archetypes/
+    ├── content/                  # site scaffolding (_index.md pages); the
+    │                              # guide itself is mounted in, not stored here
+    ├── scripts/ci-build.sh
+    └── themes/PaperMod/          # git submodule
+```

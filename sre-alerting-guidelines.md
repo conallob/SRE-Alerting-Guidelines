@@ -6,13 +6,6 @@ draft: false
 showToc: true
 ---
 
-> **Preview build.** The content below is a working draft, mirrored from the
-> [SRE-Alerting-Guidelines](https://github.com/conallob/SRE-Alerting-Guidelines)
-> repository so its Markdown formatting can be checked before it is copied
-> into `content/projects/` on writings.conall.dev. See the
-> [open issues](https://github.com/conallob/SRE-Alerting-Guidelines/issues)
-> for outstanding rework.
-
 # SRE Alerting Guidelines: A Peer to Peer Quick Style Guide
 
 Author: [Conall O'Brien](mailto:conall.obrien@docusign.com)

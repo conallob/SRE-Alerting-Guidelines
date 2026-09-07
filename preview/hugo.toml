@@ -70,3 +70,34 @@ weight = 10
 
 [outputs]
 home = ["HTML", "RSS", "JSON"]
+
+# Explicit mounts so the top-level ../sre-alerting-guidelines.md (the one
+# canonical, editable content file) can be mounted straight into the content
+# tree without copying or a symlink (Hugo won't follow symlinks that escape
+# the site root). Defining any mount means every source dir Hugo would
+# otherwise wire up automatically has to be listed here too.
+[module]
+  [[module.mounts]]
+  source = "../sre-alerting-guidelines.md"
+  target = "content/projects/sre-alerting-guidelines/index.md"
+  [[module.mounts]]
+  source = "content"
+  target = "content"
+  [[module.mounts]]
+  source = "static"
+  target = "static"
+  [[module.mounts]]
+  source = "layouts"
+  target = "layouts"
+  [[module.mounts]]
+  source = "data"
+  target = "data"
+  [[module.mounts]]
+  source = "assets"
+  target = "assets"
+  [[module.mounts]]
+  source = "i18n"
+  target = "i18n"
+  [[module.mounts]]
+  source = "archetypes"
+  target = "archetypes"

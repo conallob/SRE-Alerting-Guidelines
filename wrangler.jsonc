@@ -2,9 +2,9 @@
   "name": "sre-alerting-guidelines",
   "compatibility_date": "2026-03-28",
   "assets": {
-    "directory": "./public"
+    "directory": "./preview/public"
   },
   "build": {
-    "command": "bash scripts/ci-build.sh"
+    "command": "bash preview/scripts/ci-build.sh"
   }
 }
