@@ -51,7 +51,9 @@ copies the file to `content/projects/sre-alerting-guidelines/index.md` in
 [conallob/writings.conall.dev](https://github.com/conallob/writings.conall.dev)
 and pushes it to that repo's `main`, which Cloudflare then deploys. This repo's
 copy stays the editable source of truth; the writings repo copy is generated
-and shouldn't be edited by hand.
+and shouldn't be edited by hand. The `Last Edited: {{LAST_EDITED}}` line in the
+guide is a placeholder: the workflow replaces it (and the front matter `lastmod`)
+with the merge commit's date in the published copy, so it stays literal here.
 
 The push authenticates with a deploy key scoped to the writings repo only.
 One-time setup:

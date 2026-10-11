@@ -4,8 +4,8 @@ description: "A peer-to-peer style guide for writing effective alerts"
 date: 2026-10-11T00:00:00Z
 lastmod: 2026-10-11T00:00:00Z
 draft: false
-tags: ["SRE", "Observability", "Alerting", "Prometheus", "On-call"]
-categories: ["Engineering"]
+tags: ["SRE", "Site Reliability", "Monitoring", "Observability", "Alerting", "Prometheus", "On-call", "Style Guide"]
+categories: ["Engineering", "Site Reliability"]
 showToc: true
 TocOpen: true
 ---
@@ -13,7 +13,7 @@ TocOpen: true
 Author: [Conall O'Brien](https://www.linkedin.com/in/conall)  
 Status: Published  
 Published: 2026-10-11  
-Last Edited: 2026-10-11
+Last Edited: {{LAST_EDITED}}
 
 # Why This Document
 
@@ -238,7 +238,7 @@ The curator would like to recognise and thank the following for their invaluable
 
 - John Truscott Reese
 - Laura Nolan
-- Stepan Davidovic
+- Štěpán Davidovič
 - Trisha Weir
 - The Late Cody Smith
 
