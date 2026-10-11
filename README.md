@@ -55,24 +55,6 @@ and shouldn't be edited by hand. The `Last Edited: {{LAST_EDITED}}` line in the
 guide is a placeholder: the workflow replaces it (and the front matter `lastmod`)
 with the merge commit's date in the published copy, so it stays literal here.
 
-The push authenticates with a deploy key scoped to the writings repo only.
-One-time setup:
-
-```bash
-ssh-keygen -t ed25519 -N "" -C "sre-alerting-guidelines publish" -f ./writings-deploy-key
-```
-
-1. On conallob/writings.conall.dev: Settings → Deploy keys → Add deploy key.
-   Paste `writings-deploy-key.pub` and tick **Allow write access**.
-2. On this repo: Settings → Secrets and variables → Actions → New repository
-   secret named `WRITINGS_DEPLOY_KEY`, containing the contents of
-   `writings-deploy-key` (the private key).
-3. Delete both local key files.
-
-Until the secret exists the workflow skips itself with a notice instead of
-failing. It can also be run by hand from the Actions tab (`workflow_dispatch`)
-to re-publish the current `main`.
-
 ## Repository structure
 
 ```

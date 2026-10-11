@@ -37,7 +37,12 @@ Read the alert definitions, routing config or design under discussion, then chec
 - Avoid anticipating data correctness in the monitoring data
 - Take responsibility where others cannot or do not
 
-plus the guiding principles (coverage, priorities such as "alerts should always be actionable", and maintainability) and the strategies for alert fatigue and thresholds that do the waiting. Treat the fetched text as authoritative over this list.
+It also has guiding principles and strategies that apply to every alert:
+
+- Guiding first principles: coverage, priorities (such as "alerts should always be actionable"), and maintainability
+- Strategies for improving alerting signal: combatting alert fatigue, and letting your thresholds do the waiting
+
+Treat the fetched text as authoritative over these lists.
 
 ## 3. Report
 

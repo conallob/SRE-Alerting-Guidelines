@@ -4,7 +4,19 @@ name: Publish to writings.conall.dev
 # conallob/writings.conall.dev (content/projects/sre-alerting-guidelines/index.md)
 # and pushes it to that repo's main branch, which Cloudflare then deploys.
 # Requires the WRITINGS_DEPLOY_KEY secret: the private half of a deploy key
-# (write access) registered on conallob/writings.conall.dev. See README.
+# (write access) registered on conallob/writings.conall.dev. Until the secret
+# exists the workflow skips itself with a notice instead of failing.
+#
+# One-time setup:
+#   1. ssh-keygen -t ed25519 -N "" -C "sre-alerting-guidelines publish" -f ./writings-deploy-key
+#   2. On conallob/writings.conall.dev: Settings > Deploy keys > Add deploy key.
+#      Paste writings-deploy-key.pub and tick "Allow write access".
+#   3. On this repo: Settings > Secrets and variables > Actions > New repository
+#      secret named WRITINGS_DEPLOY_KEY, containing writings-deploy-key (the
+#      private key).
+#   4. Delete both local key files.
+#
+# Run it by hand from the Actions tab (workflow_dispatch) to re-publish main.
 
 on:
   push:
