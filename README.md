@@ -43,6 +43,12 @@ Previews need no GitHub Actions workflow — Cloudflare builds straight off
 whatever branch you push here. (Publishing to writings.conall.dev is separate;
 see below.)
 
+Pull requests that change the guide also get a preview of the guide on the real
+writings.conall.dev site layout: [`.github/workflows/preview.yml`](./.github/workflows/preview.yml)
+builds the writings.conall.dev site with the PR's copy of the guide dropped in,
+uploads it as a preview version of the writings Worker, and comments the link on
+the PR. The header of that workflow lists the two Cloudflare secrets it needs.
+
 ### Publishing
 
 Merging a change to `sre-alerting-guidelines.md` on `main` publishes it:
@@ -51,9 +57,10 @@ copies the file to `content/documents/sre-alerting-guidelines/index.md` in
 [conallob/writings.conall.dev](https://github.com/conallob/writings.conall.dev)
 and pushes it to that repo's `main`, which Cloudflare then deploys. This repo's
 copy stays the editable source of truth; the writings repo copy is generated
-and shouldn't be edited by hand. The `Last Edited: {{LAST_EDITED}}` line in the
-guide is a placeholder: the workflow replaces it (and the front matter `lastmod`)
-with the merge commit's date in the published copy, so it stays literal here.
+and shouldn't be edited by hand. The guide's front matter `lastmod` is stamped
+by the workflow with the merge commit's date in the published copy, so it can
+be stale here. The site shows it as "Last Edited" in the page header, above the
+table of contents, because the front matter sets `showLastMod: true`.
 
 ## Repository structure
 

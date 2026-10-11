@@ -1,0 +1,164 @@
+name: Preview on writings.conall.dev
+
+# Builds the real writings.conall.dev site with this PR's version of the guide
+# dropped into its published path (content/documents/sre-alerting-guidelines/),
+# then uploads it to Cloudflare as a preview version of the writings Worker, so
+# you can see the actual page in the actual site layout before merging. The PR
+# gets a comment with the preview link.
+#
+# Needs two repository secrets for the upload step (the build always runs, so
+# the combined site is still validated without them):
+#   CLOUDFLARE_API_TOKEN   an API token with "Workers Scripts: Edit" on the account
+#   CLOUDFLARE_ACCOUNT_ID  the Cloudflare account id that owns the writings Worker
+# The upload is skipped on pull requests from forks, which can't read secrets.
+#
+# The writings site is taken from its main branch. To preview against another
+# branch (for example one with a layout change this PR depends on), set the
+# repository variable WRITINGS_PREVIEW_REF, or pick the ref when running this
+# workflow by hand from the Actions tab.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - sre-alerting-guidelines.md
+      - .github/workflows/preview.yml
+  workflow_dispatch:
+    inputs:
+      writings_ref:
+        description: Branch, tag or SHA of conallob/writings.conall.dev to build against
+        required: false
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+env:
+  WRITINGS_REPO: conallob/writings.conall.dev
+  TARGET_PATH: content/documents/sre-alerting-guidelines/index.md
+  WORKER_NAME: writings-conall-dev
+  WORKERS_DEV_SUBDOMAIN: conall-ac7
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out this repo (the PR merged into its base)
+        uses: actions/checkout@v4
+
+      - name: Check out the writings site
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.WRITINGS_REPO }}
+          ref: ${{ inputs.writings_ref || vars.WRITINGS_PREVIEW_REF || 'main' }}
+          path: writings
+
+      - name: Work out the preview alias
+        id: alias
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          if [ -n "$PR_NUMBER" ]; then
+            alias="sre-pr-${PR_NUMBER}"
+          else
+            alias="sre-run-${RUN_ID}"
+          fi
+          echo "alias=${alias}" >> "$GITHUB_OUTPUT"
+          echo "url=https://${alias}-${WORKER_NAME}.${WORKERS_DEV_SUBDOMAIN}.workers.dev/" >> "$GITHUB_OUTPUT"
+
+      - name: Put this PR's guide into the writings site
+        run: |
+          mkdir -p "writings/$(dirname "$TARGET_PATH")"
+          cp sre-alerting-guidelines.md "writings/$TARGET_PATH"
+          now=$(TZ=UTC date +%Y-%m-%dT%H:%M:%SZ)
+          sed -i "s/^lastmod: .*/lastmod: ${now}/" "writings/$TARGET_PATH"
+
+      - name: Check for Cloudflare credentials
+        id: cf
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$CLOUDFLARE_API_TOKEN" ] && [ -n "$CLOUDFLARE_ACCOUNT_ID" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Cloudflare secrets are not available (not set, or a fork PR); building without uploading a preview."
+            echo "Built the combined site but did not upload a preview: CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID are not available." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Show what the Cloudflare credentials can access
+        if: steps.cf.outputs.present == 'true'
+        continue-on-error: true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx --yes wrangler@4 whoami
+
+      - name: Build the combined site
+        if: steps.cf.outputs.present != 'true'
+        working-directory: writings
+        env:
+          WORKERS_CI_BRANCH: ${{ steps.alias.outputs.alias }}
+        run: bash scripts/ci-build.sh
+
+      - name: Build and upload the preview version
+        if: steps.cf.outputs.present == 'true'
+        working-directory: writings
+        env:
+          # wrangler runs the writings site's own build command (scripts/ci-build.sh),
+          # which reads this to point internal links at the preview URL.
+          WORKERS_CI_BRANCH: ${{ steps.alias.outputs.alias }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          ALIAS: ${{ steps.alias.outputs.alias }}
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          npx --yes wrangler@4 versions upload \
+            --preview-alias "$ALIAS" \
+            --tag "$ALIAS" \
+            --message "SRE-Alerting-Guidelines ${ALIAS} @ ${SOURCE_SHA::7}"
+
+      - name: Comment the preview link on the PR
+        if: >-
+          steps.cf.outputs.present == 'true' &&
+          github.event_name == 'pull_request' &&
+          github.event.pull_request.head.repo.full_name == github.repository
+        uses: actions/github-script@v7
+        env:
+          PREVIEW_URL: ${{ steps.alias.outputs.url }}
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+          WRITINGS_REF: ${{ vars.WRITINGS_PREVIEW_REF || 'main' }}
+        with:
+          script: |
+            const marker = '<!-- sre-guidelines-preview -->';
+            const url = process.env.PREVIEW_URL;
+            const body = [
+              marker,
+              '### Preview on writings.conall.dev',
+              '',
+              `[Open the guide page](${url}documents/sre-alerting-guidelines/) · [Markdown edition](${url}documents/sre-alerting-guidelines/index.md)`,
+              '',
+              `Built from this PR at \`${process.env.SOURCE_SHA.slice(0, 7)}\` against the writings site's \`${process.env.WRITINGS_REF}\` branch, as a preview version of the writings Worker (production is unchanged). The link updates on every push.`,
+            ].join('\n');
+            const { owner, repo } = context.repo;
+            const issue_number = context.payload.pull_request.number;
+            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number });
+            const existing = comments.find((c) => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
+
+      - name: Summarise
+        if: steps.cf.outputs.present == 'true'
+        env:
+          PREVIEW_URL: ${{ steps.alias.outputs.url }}
+        run: |
+          echo "Preview: ${PREVIEW_URL}documents/sre-alerting-guidelines/" >> "$GITHUB_STEP_SUMMARY"
