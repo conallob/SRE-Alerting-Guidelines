@@ -92,6 +92,14 @@ jobs:
             echo "Built the combined site but did not upload a preview: CLOUDFLARE_API_TOKEN / CLOUDFLARE_ACCOUNT_ID are not available." >> "$GITHUB_STEP_SUMMARY"
           fi
 
+      - name: Show what the Cloudflare credentials can access
+        if: steps.cf.outputs.present == 'true'
+        continue-on-error: true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: npx --yes wrangler@4 whoami
+
       - name: Build the combined site
         if: steps.cf.outputs.present != 'true'
         working-directory: writings
