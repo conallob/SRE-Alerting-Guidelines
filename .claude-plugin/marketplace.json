@@ -1,0 +1,15 @@
+{
+  "name": "conallob",
+  "description": "SRE and observability skills from Conall O'Brien",
+  "owner": {
+    "name": "Conall O'Brien",
+    "url": "https://writings.conall.dev"
+  },
+  "plugins": [
+    {
+      "name": "sre-alerting-guidelines",
+      "source": "./plugins/sre-alerting-guidelines",
+      "description": "A practical, implementation guide to https://sre.google/sre-book/monitoring-distributed-systems/. Review and design alerts against the SRE Alerting Guidelines, fetched live from writings.conall.dev."
+    }
+  ]
+}

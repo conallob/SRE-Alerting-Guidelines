@@ -1,0 +1,21 @@
+name: Check keywords sync
+
+# The guide's front matter `tags` and the plugin manifest's `keywords` must
+# list the same entries. Neither file can carry ifttt-lint directives (JSON has
+# no comments, Markdown front matter can't hold HTML comments), so this script
+# compares them directly.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  keywords:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/check-keywords-sync.py

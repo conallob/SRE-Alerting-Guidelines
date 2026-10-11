@@ -55,24 +55,6 @@ and shouldn't be edited by hand. The `Last Edited: {{LAST_EDITED}}` line in the
 guide is a placeholder: the workflow replaces it (and the front matter `lastmod`)
 with the merge commit's date in the published copy, so it stays literal here.
 
-The push authenticates with a deploy key scoped to the writings repo only.
-One-time setup:
-
-```bash
-ssh-keygen -t ed25519 -N "" -C "sre-alerting-guidelines publish" -f ./writings-deploy-key
-```
-
-1. On conallob/writings.conall.dev: Settings → Deploy keys → Add deploy key.
-   Paste `writings-deploy-key.pub` and tick **Allow write access**.
-2. On this repo: Settings → Secrets and variables → Actions → New repository
-   secret named `WRITINGS_DEPLOY_KEY`, containing the contents of
-   `writings-deploy-key` (the private key).
-3. Delete both local key files.
-
-Until the secret exists the workflow skips itself with a notice instead of
-failing. It can also be run by hand from the Actions tab (`workflow_dispatch`)
-to re-publish the current `main`.
-
 ## Repository structure
 
 ```
@@ -88,3 +70,34 @@ to re-publish the current `main`.
     ├── scripts/ci-build.sh
     └── themes/PaperMod/          # git submodule
 ```
+
+## Use the guide as a Claude Code skill
+
+This repo is also a Claude Code plugin marketplace
+([`.claude-plugin/marketplace.json`](./.claude-plugin/marketplace.json)) that
+ships one plugin, `sre-alerting-guidelines`, with a single skill,
+`review-alerts`. The skill is a thin pointer: it fetches the current guide from
+[writings.conall.dev](https://writings.conall.dev/projects/sre-alerting-guidelines/index.md)
+each time it runs instead of bundling a copy, so it never goes stale and reads
+of the guide keep going through the published site.
+
+Install it in one step (Claude Code 2.1.275 or later):
+
+```
+/plugin install sre-alerting-guidelines --marketplace conallob/SRE-Alerting-Guidelines
+```
+
+or add the marketplace and install separately:
+
+```bash
+claude plugin marketplace add conallob/SRE-Alerting-Guidelines
+claude plugin install sre-alerting-guidelines@conallob
+```
+
+Then ask Claude to review an alert, or run `/sre-alerting-guidelines:review-alerts`.
+
+Validate changes to the plugin or marketplace with
+`claude plugin validate .` and
+`claude plugin validate ./plugins/sre-alerting-guidelines`. The guide's front
+matter `tags` and the plugin's `keywords` must list the same entries; CI
+enforces this with `python3 scripts/check-keywords-sync.py`.
