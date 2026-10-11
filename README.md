@@ -53,7 +53,7 @@ and pushes it to that repo's `main`, which Cloudflare then deploys. This repo's
 copy stays the editable source of truth; the writings repo copy is generated
 and shouldn't be edited by hand. The guide's front matter `lastmod` is stamped
 by the workflow with the merge commit's date in the published copy, so it can
-be stale here. The site shows it as "Last edited" in the page header, above the
+be stale here. The site shows it as "Last Edited" in the page header, above the
 table of contents, because the front matter sets `showLastMod: true`.
 
 ## Repository structure
