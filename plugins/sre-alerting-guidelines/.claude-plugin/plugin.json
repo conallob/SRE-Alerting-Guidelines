@@ -10,5 +10,14 @@
   "homepage": "https://writings.conall.dev/projects/sre-alerting-guidelines/",
   "repository": "https://github.com/conallob/SRE-Alerting-Guidelines",
   "license": "BSD-3-Clause",
-  "keywords": ["sre", "alerting", "observability", "prometheus", "alertmanager", "slo"]
+  "keywords": [
+    "SRE",
+    "Site Reliability",
+    "Monitoring",
+    "Observability",
+    "Alerting",
+    "Prometheus",
+    "On-call",
+    "Style Guide"
+  ]
 }
