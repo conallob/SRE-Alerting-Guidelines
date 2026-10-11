@@ -43,6 +43,12 @@ Previews need no GitHub Actions workflow — Cloudflare builds straight off
 whatever branch you push here. (Publishing to writings.conall.dev is separate;
 see below.)
 
+Pull requests that change the guide also get a preview of the guide on the real
+writings.conall.dev site layout: [`.github/workflows/preview.yml`](./.github/workflows/preview.yml)
+builds the writings.conall.dev site with the PR's copy of the guide dropped in,
+uploads it as a preview version of the writings Worker, and comments the link on
+the PR. The header of that workflow lists the two Cloudflare secrets it needs.
+
 ### Publishing
 
 Merging a change to `sre-alerting-guidelines.md` on `main` publishes it:
