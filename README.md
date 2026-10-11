@@ -64,3 +64,32 @@ surface; writings.conall.dev only receives finished pages.
     ├── scripts/ci-build.sh
     └── themes/PaperMod/          # git submodule
 ```
+
+## Use the guide as a Claude Code skill
+
+This repo is also a Claude Code plugin marketplace
+([`.claude-plugin/marketplace.json`](./.claude-plugin/marketplace.json)) that
+ships one plugin, `sre-alerting-guidelines`, with a single skill,
+`review-alerts`. The skill is a thin pointer: it fetches the current guide from
+[writings.conall.dev](https://writings.conall.dev/projects/sre-alerting-guidelines/index.md)
+each time it runs instead of bundling a copy, so it never goes stale and reads
+of the guide keep going through the published site.
+
+Install it in one step (Claude Code 2.1.275 or later):
+
+```
+/plugin install sre-alerting-guidelines --marketplace conallob/SRE-Alerting-Guidelines
+```
+
+or add the marketplace and install separately:
+
+```bash
+claude plugin marketplace add conallob/SRE-Alerting-Guidelines
+claude plugin install sre-alerting-guidelines@conallob
+```
+
+Then ask Claude to review an alert, or run `/sre-alerting-guidelines:review-alerts`.
+
+Validate changes to the plugin or marketplace with
+`claude plugin validate .` and
+`claude plugin validate ./plugins/sre-alerting-guidelines`.
