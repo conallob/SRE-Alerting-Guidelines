@@ -257,7 +257,7 @@ Additional Reviewers of a Previous Version:
 - Rob Ewaschuk
 - Joel Becker
 - Trevor Mattson-Hamilton
-- Karl Micha
+- Karl-Michael Schneider
 - Kate Ward
 
 # About The Author
