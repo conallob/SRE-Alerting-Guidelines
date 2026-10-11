@@ -39,22 +39,44 @@ directory `preview/public`. It then builds every branch automatically:
   (the build script derives the slug from `WORKERS_CI_BRANCH` and overrides
   `baseURL` accordingly, so internal links stay on the preview domain).
 
-No GitHub Actions workflow or cross-repo push is needed — Cloudflare builds
-straight off whatever branch you push here.
+Previews need no GitHub Actions workflow — Cloudflare builds straight off
+whatever branch you push here. (Publishing to writings.conall.dev is separate;
+see below.)
 
 ### Publishing
 
-Once a section of the guide is ready, copy `sre-alerting-guidelines.md`
-(minus its Hugo front matter, or adapted to fit) into
-`content/projects/sre-alerting-guidelines/` on writings.conall.dev and open a
-PR there. This repo's copy stays the editable source of truth and preview
-surface; writings.conall.dev only receives finished pages.
+Merging a change to `sre-alerting-guidelines.md` on `main` publishes it:
+[`.github/workflows/publish-to-writings.yml`](./.github/workflows/publish-to-writings.yml)
+copies the file to `content/projects/sre-alerting-guidelines/index.md` in
+[conallob/writings.conall.dev](https://github.com/conallob/writings.conall.dev)
+and pushes it to that repo's `main`, which Cloudflare then deploys. This repo's
+copy stays the editable source of truth; the writings repo copy is generated
+and shouldn't be edited by hand.
+
+The push authenticates with a deploy key scoped to the writings repo only.
+One-time setup:
+
+```bash
+ssh-keygen -t ed25519 -N "" -C "sre-alerting-guidelines publish" -f ./writings-deploy-key
+```
+
+1. On conallob/writings.conall.dev: Settings → Deploy keys → Add deploy key.
+   Paste `writings-deploy-key.pub` and tick **Allow write access**.
+2. On this repo: Settings → Secrets and variables → Actions → New repository
+   secret named `WRITINGS_DEPLOY_KEY`, containing the contents of
+   `writings-deploy-key` (the private key).
+3. Delete both local key files.
+
+Until the secret exists the workflow skips itself with a notice instead of
+failing. It can also be run by hand from the Actions tab (`workflow_dispatch`)
+to re-publish the current `main`.
 
 ## Repository structure
 
 ```
 .
 ├── sre-alerting-guidelines.md   # the guide (edit this)
+├── .github/workflows/            # publish-to-writings.yml (deploy-key sync)
 ├── wrangler.jsonc                # Cloudflare Workers Builds deploy config
 └── preview/                      # Hugo preview site (config/theme/tooling only)
     ├── hugo.toml

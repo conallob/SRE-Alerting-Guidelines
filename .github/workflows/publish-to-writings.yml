@@ -1,0 +1,78 @@
+name: Publish to writings.conall.dev
+
+# Copies sre-alerting-guidelines.md into the published path of
+# conallob/writings.conall.dev (content/projects/sre-alerting-guidelines/index.md)
+# and pushes it to that repo's main branch, which Cloudflare then deploys.
+# Requires the WRITINGS_DEPLOY_KEY secret: the private half of a deploy key
+# (write access) registered on conallob/writings.conall.dev. See README.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - sre-alerting-guidelines.md
+      - .github/workflows/publish-to-writings.yml
+  workflow_dispatch:
+
+concurrency:
+  group: publish-to-writings
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  TARGET_REPO: conallob/writings.conall.dev
+  TARGET_PATH: content/projects/sre-alerting-guidelines/index.md
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for deploy key
+        id: key
+        env:
+          DEPLOY_KEY: ${{ secrets.WRITINGS_DEPLOY_KEY }}
+        run: |
+          if [ -z "$DEPLOY_KEY" ]; then
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::WRITINGS_DEPLOY_KEY is not set; skipping publish."
+            echo "Skipped: WRITINGS_DEPLOY_KEY secret is not configured." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check out this repo
+        if: steps.key.outputs.present == 'true'
+        uses: actions/checkout@v4
+
+      - name: Check out the writings repo
+        if: steps.key.outputs.present == 'true'
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ env.TARGET_REPO }}
+          ref: main
+          ssh-key: ${{ secrets.WRITINGS_DEPLOY_KEY }}
+          path: writings
+
+      - name: Copy the guide into the published path
+        if: steps.key.outputs.present == 'true'
+        run: |
+          mkdir -p "writings/$(dirname "$TARGET_PATH")"
+          cp sre-alerting-guidelines.md "writings/$TARGET_PATH"
+
+      - name: Commit and push if changed
+        if: steps.key.outputs.present == 'true'
+        working-directory: writings
+        run: |
+          git add "$TARGET_PATH"
+          if git diff --cached --quiet; then
+            echo "No changes to publish."
+            echo "No changes to publish." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Sync SRE Alerting Guidelines from ${GITHUB_REPOSITORY}@${GITHUB_SHA::7}"
+          git push origin HEAD:main
+          echo "Published ${GITHUB_REPOSITORY}@${GITHUB_SHA::7} to ${TARGET_REPO}:${TARGET_PATH}." >> "$GITHUB_STEP_SUMMARY"
