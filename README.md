@@ -98,4 +98,6 @@ Then ask Claude to review an alert, or run `/sre-alerting-guidelines:review-aler
 
 Validate changes to the plugin or marketplace with
 `claude plugin validate .` and
-`claude plugin validate ./plugins/sre-alerting-guidelines`.
+`claude plugin validate ./plugins/sre-alerting-guidelines`. The guide's front
+matter `tags` and the plugin's `keywords` must list the same entries; CI
+enforces this with `python3 scripts/check-keywords-sync.py`.
