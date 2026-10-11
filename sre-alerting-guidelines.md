@@ -31,7 +31,9 @@ This guide isn't here to rehash broad architectural theory. Instead, it's a comp
 When implementing/refactoring an alert, sometimes you just need a specific best practice (or cautionary tale) to cite during review, or AI prompt construction.
 
 > [!NOTE]
-> This doc is a living document, which may evolve over time (typically with additional examples, links to tools or TIPS). If you spot a gap, please [file a doc bug](https://github.com/conallob/SRE-Alerting-Guidelines/issues) to track the fix or just send a PR.
+> This doc is a living document, which may evolve over time (typically with additional examples, links to tools or TIPS). If you spot a gap, please
+> [file a doc bug](https://github.com/conallob/SRE-Alerting-Guidelines/issues) to track the fix or
+> [just send a PR](https://github.com/conallob/SRE-Alerting-Guidelines/blob/main/sre-alerting-guidelines.md).
 
 ### Supported System Paradigms
 
