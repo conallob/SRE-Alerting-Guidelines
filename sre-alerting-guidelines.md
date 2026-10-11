@@ -15,6 +15,15 @@ Status: Published
 Published: 2026-10-11  
 Last Edited: {{LAST_EDITED}}
 
+> [!TIP]
+> This guide is LLM friendly. The same text is served as plain Markdown at [writings.conall.dev/projects/sre-alerting-guidelines/index.md](https://writings.conall.dev/projects/sre-alerting-guidelines/index.md), and a Claude Code skill reviews alerts against the current guide. Install it with:
+>
+> ```
+> /plugin install sre-alerting-guidelines --marketplace conallob/SRE-Alerting-Guidelines
+> ```
+>
+> See [Use the guide as a Claude Code skill](https://github.com/conallob/SRE-Alerting-Guidelines#use-the-guide-as-a-claude-code-skill) for more details.
+
 # Why This Document
 
 There are many foundational monitoring texts for engineers—most notably the [Monitoring Distributed Systems](https://sre.google/sre-book/monitoring-distributed-systems/) chapter of the SRE Book, and the design advice from the [Monitoring](https://sre.google/workbook/monitoring/) chapter of the SRE Workbook.
