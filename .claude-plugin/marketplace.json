@@ -1,0 +1,15 @@
+{
+  "name": "conallob",
+  "description": "SRE and observability skills from Conall O'Brien",
+  "owner": {
+    "name": "Conall O'Brien",
+    "url": "https://writings.conall.dev"
+  },
+  "plugins": [
+    {
+      "name": "sre-alerting-guidelines",
+      "source": "./plugins/sre-alerting-guidelines",
+      "description": "Apply the SRE Alerting Guidelines when writing, reviewing or refactoring alerts. Fetches the current guide from writings.conall.dev."
+    }
+  ]
+}

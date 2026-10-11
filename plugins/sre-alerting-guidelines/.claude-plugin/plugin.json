@@ -1,0 +1,23 @@
+{
+  "name": "sre-alerting-guidelines",
+  "displayName": "SRE Alerting Guidelines",
+  "version": "0.1.0",
+  "description": "Review and design alerts against the SRE Alerting Guidelines, fetched live from writings.conall.dev.",
+  "author": {
+    "name": "Conall O'Brien",
+    "url": "https://writings.conall.dev"
+  },
+  "homepage": "https://writings.conall.dev/projects/sre-alerting-guidelines/",
+  "repository": "https://github.com/conallob/SRE-Alerting-Guidelines",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "SRE",
+    "Site Reliability",
+    "Monitoring",
+    "Observability",
+    "Alerting",
+    "Prometheus",
+    "On-call",
+    "Style Guide"
+  ]
+}
