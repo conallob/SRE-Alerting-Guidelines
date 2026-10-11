@@ -7,7 +7,7 @@ description: A practical, implementation guide to https://sre.google/sre-book/mo
 
 This skill is the practical implementation guide to the SRE Book's [Monitoring Distributed Systems](https://sre.google/sre-book/monitoring-distributed-systems/) chapter. The chapter explains the philosophy of monitoring and alerting; the SRE Alerting Guidelines turn it into concrete guardrails you can apply to a real alert, so use the chapter for the "why" and the guide for the "what to change".
 
-The guide is a peer-to-peer style guide of "do this, not that" guardrails for alert design. It is maintained at https://writings.conall.dev/projects/sre-alerting-guidelines/ and changes over time, so always read the current text before applying it.
+The guide is a peer-to-peer style guide of "do this, not that" guardrails for alert design. It is maintained at https://writings.conall.dev/documents/sre-alerting-guidelines/ and changes over time, so always read the current text before applying it.
 
 It is formatted like a style guide: the guardrails are broken out by subsection, and each subsection can include one or more TIPs, NOTEs, and Examples and Counter Examples related to that subsection. Read a subsection as a whole before citing it, since its TIPs, NOTEs and Counter Examples often qualify the main guidance.
 
@@ -16,7 +16,7 @@ It is formatted like a style guide: the guardrails are broken out by subsection,
 Fetch the Markdown edition, which is the same content as the web page without the site chrome:
 
 ```
-https://writings.conall.dev/projects/sre-alerting-guidelines/index.md
+https://writings.conall.dev/documents/sre-alerting-guidelines/index.md
 ```
 
 Use WebFetch, or `curl -sL` if shell access is available. If that URL is unreachable, fall back to the source file:
@@ -50,7 +50,7 @@ Treat the fetched text as authoritative over these lists.
 
 For each finding, give:
 
-1. The guideline by name, linked to the page (https://writings.conall.dev/projects/sre-alerting-guidelines/).
+1. The guideline by name, linked to the page (https://writings.conall.dev/documents/sre-alerting-guidelines/).
 2. What in the alert or design triggers it, quoting the relevant rule, expression or threshold.
 3. A concrete suggested change.
 
