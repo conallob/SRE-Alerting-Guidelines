@@ -2,7 +2,7 @@
   "name": "sre-alerting-guidelines",
   "displayName": "SRE Alerting Guidelines",
   "version": "0.1.0",
-  "description": "Review and design alerts against the SRE Alerting Guidelines, fetched live from writings.conall.dev.",
+  "description": "A practical, implementation guide to https://sre.google/sre-book/monitoring-distributed-systems/. Review and design alerts against the SRE Alerting Guidelines, fetched live from writings.conall.dev.",
   "author": {
     "name": "Conall O'Brien",
     "url": "https://writings.conall.dev"
