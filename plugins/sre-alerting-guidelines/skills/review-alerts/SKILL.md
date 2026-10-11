@@ -1,9 +1,11 @@
 ---
 name: review-alerts
-description: Apply the SRE Alerting Guidelines when writing, reviewing or refactoring alerts, such as Prometheus alert rules, SLO burn-rate alerts, Alertmanager routing, or paging versus ticketing decisions. Also use when asked whether an alert is actionable, noisy, redundant, symptom-based or well-thresholded. Fetches the current guide from writings.conall.dev rather than relying on a bundled copy.
+description: The practical implementation guide to the SRE Book's Monitoring Distributed Systems chapter. Apply the SRE Alerting Guidelines when writing, reviewing or refactoring alerts, such as Prometheus alert rules, SLO burn-rate alerts, Alertmanager routing, or paging versus ticketing decisions. Also use when asked whether an alert is actionable, noisy, redundant, symptom-based or well-thresholded. Fetches the current guide from writings.conall.dev rather than relying on a bundled copy.
 ---
 
 # Review alerts against the SRE Alerting Guidelines
+
+This skill is the practical implementation guide to the SRE Book's [Monitoring Distributed Systems](https://sre.google/sre-book/monitoring-distributed-systems/) chapter. The chapter explains the philosophy of monitoring and alerting; the SRE Alerting Guidelines turn it into concrete guardrails you can apply to a real alert, so use the chapter for the "why" and the guide for the "what to change".
 
 The guide is a peer-to-peer style guide of "do this, not that" guardrails for alert design. It is maintained at https://writings.conall.dev/projects/sre-alerting-guidelines/ and changes over time, so always read the current text before applying it.
 
