@@ -7,7 +7,7 @@
     "name": "Conall O'Brien",
     "url": "https://writings.conall.dev"
   },
-  "homepage": "https://writings.conall.dev/projects/sre-alerting-guidelines/",
+  "homepage": "https://writings.conall.dev/documents/sre-alerting-guidelines/",
   "repository": "https://github.com/conallob/SRE-Alerting-Guidelines",
   "license": "BSD-3-Clause",
   "keywords": [

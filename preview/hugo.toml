@@ -47,7 +47,7 @@ imageHeight = 120
 
 [[params.profileMode.buttons]]
 name = "Guide"
-url = "/projects/sre-alerting-guidelines/"
+url = "/documents/sre-alerting-guidelines/"
 
 [[params.socialIcons]]
 name = "github"
@@ -65,7 +65,7 @@ text = "SRE Alerting Guidelines"
 [[menu.main]]
 identifier = "guide"
 name = "Guide"
-url = "/projects/sre-alerting-guidelines/"
+url = "/documents/sre-alerting-guidelines/"
 weight = 10
 
 [outputs]
@@ -79,7 +79,7 @@ home = ["HTML", "RSS", "JSON"]
 [module]
   [[module.mounts]]
   source = "../sre-alerting-guidelines.md"
-  target = "content/projects/sre-alerting-guidelines/index.md"
+  target = "content/documents/sre-alerting-guidelines/index.md"
   [[module.mounts]]
   source = "content"
   target = "content"

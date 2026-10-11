@@ -16,7 +16,7 @@ Published: 2026-10-11
 Last Edited: {{LAST_EDITED}}
 
 > [!TIP]
-> This guide is LLM friendly. The same text is served as plain Markdown at [writings.conall.dev/projects/sre-alerting-guidelines/index.md](https://writings.conall.dev/projects/sre-alerting-guidelines/index.md), and a Claude Code skill reviews alerts against the current guide. Install it with:
+> This guide is LLM friendly. The same text is served as plain Markdown at [writings.conall.dev/documents/sre-alerting-guidelines/index.md](https://writings.conall.dev/documents/sre-alerting-guidelines/index.md), and a Claude Code skill reviews alerts against the current guide. Install it with:
 >
 > ```
 > /plugin install sre-alerting-guidelines --marketplace conallob/SRE-Alerting-Guidelines

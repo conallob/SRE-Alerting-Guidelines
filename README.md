@@ -2,8 +2,8 @@
 
 A peer-to-peer style guide for writing effective alerts. This is the long-term,
 transparent home for the guide's content and its living issue tracker; the
-finished guide is published as a project page under
-[writings.conall.dev/projects/](https://writings.conall.dev/projects/).
+finished guide is published as a document under
+[writings.conall.dev/documents/](https://writings.conall.dev/documents/).
 
 ## Content
 
@@ -47,7 +47,7 @@ see below.)
 
 Merging a change to `sre-alerting-guidelines.md` on `main` publishes it:
 [`.github/workflows/publish-to-writings.yml`](./.github/workflows/publish-to-writings.yml)
-copies the file to `content/projects/sre-alerting-guidelines/index.md` in
+copies the file to `content/documents/sre-alerting-guidelines/index.md` in
 [conallob/writings.conall.dev](https://github.com/conallob/writings.conall.dev)
 and pushes it to that repo's `main`, which Cloudflare then deploys. This repo's
 copy stays the editable source of truth; the writings repo copy is generated
@@ -77,7 +77,7 @@ This repo is also a Claude Code plugin marketplace
 ([`.claude-plugin/marketplace.json`](./.claude-plugin/marketplace.json)) that
 ships one plugin, `sre-alerting-guidelines`, with a single skill,
 `review-alerts`. The skill is a thin pointer: it fetches the current guide from
-[writings.conall.dev](https://writings.conall.dev/projects/sre-alerting-guidelines/index.md)
+[writings.conall.dev](https://writings.conall.dev/documents/sre-alerting-guidelines/index.md)
 each time it runs instead of bundling a copy, so it never goes stale and reads
 of the guide keep going through the published site.
 

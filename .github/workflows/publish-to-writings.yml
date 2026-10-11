@@ -1,7 +1,7 @@
 name: Publish to writings.conall.dev
 
 # Copies sre-alerting-guidelines.md into the published path of
-# conallob/writings.conall.dev (content/projects/sre-alerting-guidelines/index.md)
+# conallob/writings.conall.dev (content/documents/sre-alerting-guidelines/index.md)
 # and pushes it to that repo's main branch, which Cloudflare then deploys.
 # Requires the WRITINGS_DEPLOY_KEY secret: the private half of a deploy key
 # (write access) registered on conallob/writings.conall.dev. Until the secret
@@ -35,7 +35,7 @@ permissions:
 
 env:
   TARGET_REPO: conallob/writings.conall.dev
-  TARGET_PATH: content/projects/sre-alerting-guidelines/index.md
+  TARGET_PATH: content/documents/sre-alerting-guidelines/index.md
 
 jobs:
   publish:
