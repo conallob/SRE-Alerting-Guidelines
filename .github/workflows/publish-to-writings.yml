@@ -77,14 +77,10 @@ jobs:
         if: steps.key.outputs.present == 'true'
         run: |
           merged_at=$(TZ=UTC git log -1 --format=%cd --date=format-local:%Y-%m-%dT%H:%M:%SZ)
-          merged_on=${merged_at%%T*}
           f="writings/$TARGET_PATH"
-          sed -i \
-            -e "s/{{LAST_EDITED}}/${merged_on}/" \
-            -e "s/^lastmod: .*/lastmod: ${merged_at}/" \
-            "$f"
-          if grep -q '{{LAST_EDITED}}' "$f"; then
-            echo "::error::LAST_EDITED placeholder was not replaced"
+          sed -i "s/^lastmod: .*/lastmod: ${merged_at}/" "$f"
+          if ! grep -q "^lastmod: ${merged_at}$" "$f"; then
+            echo "::error::front matter lastmod was not updated"
             exit 1
           fi
 

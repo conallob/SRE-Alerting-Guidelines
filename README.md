@@ -51,9 +51,10 @@ copies the file to `content/documents/sre-alerting-guidelines/index.md` in
 [conallob/writings.conall.dev](https://github.com/conallob/writings.conall.dev)
 and pushes it to that repo's `main`, which Cloudflare then deploys. This repo's
 copy stays the editable source of truth; the writings repo copy is generated
-and shouldn't be edited by hand. The `Last Edited: {{LAST_EDITED}}` line in the
-guide is a placeholder: the workflow replaces it (and the front matter `lastmod`)
-with the merge commit's date in the published copy, so it stays literal here.
+and shouldn't be edited by hand. The guide's front matter `lastmod` is stamped
+by the workflow with the merge commit's date in the published copy, so it can
+be stale here. The site shows it as "Last edited" in the page header, above the
+table of contents, because the front matter sets `showLastMod: true`.
 
 ## Repository structure
 
