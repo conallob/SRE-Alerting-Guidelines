@@ -7,6 +7,8 @@ description: Apply the SRE Alerting Guidelines when writing, reviewing or refact
 
 The guide is a peer-to-peer style guide of "do this, not that" guardrails for alert design. It is maintained at https://writings.conall.dev/projects/sre-alerting-guidelines/ and changes over time, so always read the current text before applying it.
 
+It is formatted like a style guide: the guardrails are broken out by subsection, and each subsection can include one or more TIPs, NOTEs, and Examples and Counter Examples related to that subsection. Read a subsection as a whole before citing it, since its TIPs, NOTEs and Counter Examples often qualify the main guidance.
+
 ## 1. Fetch the guide
 
 Fetch the Markdown edition, which is the same content as the web page without the site chrome:
