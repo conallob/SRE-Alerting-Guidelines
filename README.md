@@ -11,6 +11,12 @@ finished guide is published as a document under
 is the guide itself — the one file to edit. Everything else in the repo is
 tooling that exists to preview it.
 
+Every heading carries an explicit anchor, e.g. `## Coverage {#coverage}`, so
+links such as `/documents/sre-alerting-guidelines/#coverage` stay valid when a
+heading is reworded. Keep the id when you rename a heading, and give a new
+heading a unique one. Hugo drops the `{#...}` from the rendered page; GitHub's
+view of the file and the Markdown edition show it literally.
+
 ## Preview site
 
 All the Hugo scaffolding (config, theme, layout) lives under
