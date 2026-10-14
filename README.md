@@ -1,5 +1,7 @@
 # SRE-Alerting-Guidelines
 
+[![Listed on ClaudePluginHub](https://www.claudepluginhub.com/badge/conallob-sre-alerting-guidelines-plugins-sre-alerting-guidelines)](https://www.claudepluginhub.com/plugins/conallob-sre-alerting-guidelines-plugins-sre-alerting-guidelines?ref=badge)
+
 A peer-to-peer style guide for writing effective alerts. This is the long-term,
 transparent home for the guide's content and its living issue tracker; the
 finished guide is published as a document under
