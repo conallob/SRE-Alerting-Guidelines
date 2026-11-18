@@ -48,10 +48,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out this repo (the PR merged into its base)
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Check out the writings site
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: ${{ env.WRITINGS_REPO }}
           ref: ${{ inputs.writings_ref || vars.WRITINGS_PREVIEW_REF || 'main' }}
